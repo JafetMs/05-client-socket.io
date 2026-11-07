@@ -14,6 +14,8 @@ const addListeners = (socket: Socket) => {
   const serverStatusLabel =
     document.querySelector<HTMLDivElement>('#server-status')
 
+  const clientsUl = document.querySelector('#clients-ul')!
+
   socket.on('connect', () => {
     console.log('Connected:', socket.id)
 
@@ -28,5 +30,16 @@ const addListeners = (socket: Socket) => {
     if (serverStatusLabel) {
       serverStatusLabel.innerHTML = 'Disconnected'
     }
+  })
+
+  socket.on('clients-updated',(clients : string[]) =>{
+    console.log({clients})
+    let clientsHtml  = '';
+    clients.forEach( clientId => {
+        clientsHtml+= `
+            <li>${clientId}</li>
+        `
+    });
+    clientsUl.innerHTML = clientsHtml
   })
 }

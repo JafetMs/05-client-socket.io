@@ -107,7 +107,6 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
 
             <div class="connection-status" id="server-status">
               <span class="status-indicator"></span>
-              
             </div>
 
             <h1>WebSocket Client</h1>
@@ -322,6 +321,27 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
                 </div>
 
               </div>
+
+            </section>
+
+
+            <!-- CONNECTED CLIENTS -->
+            <section class="panel details-panel">
+
+              <div class="panel-header small">
+
+                <div>
+                  <span class="panel-eyebrow">
+                    CONNECTED CLIENTS
+                  </span>
+
+                  <h3>Clients</h3>
+                </div>
+
+              </div>
+
+              <ul id="clients-ul">
+              </ul>
 
             </section>
 
