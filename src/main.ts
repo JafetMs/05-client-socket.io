@@ -83,12 +83,12 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
 
         <div class="header-actions">
 
-          <button class="ghost-button">
+          <button class="ghost-button" type="button">
             <span>⌘</span>
             Search
           </button>
 
-          <button class="icon-button">
+          <button class="icon-button" type="button">
             ⚙
           </button>
 
@@ -107,6 +107,7 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
 
             <div class="connection-status" id="server-status">
               <span class="status-indicator"></span>
+              Disconnected
             </div>
 
             <h1>WebSocket Client</h1>
@@ -149,14 +150,14 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
 
             <div class="protocol">
               <span class="protocol-dot"></span>
-              WSS
+              WS
             </div>
 
             <div class="url">
-              wss://echo.websocket.events
+              ${import.meta.env.VITE_WS_SERVER}
             </div>
 
-            <button class="connect-button">
+            <button class="connect-button" type="button">
               Connect
               <span>↗</span>
             </button>
@@ -168,17 +169,17 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
 
             <div class="meta-item">
               <span>Protocol</span>
-              <strong>WebSocket</strong>
+              <strong>Socket.IO</strong>
             </div>
 
             <div class="meta-item">
               <span>Security</span>
-              <strong class="secure">Encrypted</strong>
+              <strong class="secure">Local</strong>
             </div>
 
             <div class="meta-item">
               <span>Transport</span>
-              <strong>WSS</strong>
+              <strong>WebSocket</strong>
             </div>
 
           </div>
@@ -210,6 +211,7 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
             </div>
 
 
+            <!-- EMPTY STATE -->
             <div class="empty-state">
 
               <div class="empty-visual">
@@ -235,7 +237,8 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
             </div>
 
 
-            <div class="message-composer">
+            <!-- MESSAGE FORM -->
+            <form id="message-form" class="message-composer">
 
               <div class="composer-top">
 
@@ -252,7 +255,14 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
 
 
               <div class="textarea">
-                <span>Write a message...</span>
+
+                <input
+                  id="message-input"
+                  type="text"
+                  placeholder="Write a message..."
+                  autocomplete="off"
+                />
+
               </div>
 
 
@@ -264,14 +274,17 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
                   <span>to send</span>
                 </div>
 
-                <button class="send-button">
+                <button
+                  class="send-button"
+                  type="submit"
+                >
                   Send message
                   <span>→</span>
                 </button>
 
               </div>
 
-            </div>
+            </form>
 
           </section>
 
@@ -415,7 +428,7 @@ document.querySelector<HTMLDivElement>("#app")!.innerHTML = `
               </div>
 
               <div class="server-address">
-                echo.websocket.events
+                ${import.meta.env.VITE_WS_SERVER}
               </div>
 
             </section>
