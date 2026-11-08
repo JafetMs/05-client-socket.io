@@ -2,12 +2,133 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>05-client-ws</title>
+    <meta name="theme-color" content="#090a0c" />
+    <meta name="description" content="A small Socket.IO client for testing real-time messages." />
+    <title>Socket Client · WebSocket</title>
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      <div class="app">
+        <aside class="sidebar" aria-label="Workspace navigation">
+          <div class="logo">
+            <div class="logo-mark" aria-hidden="true"><span></span><span></span></div>
+            <div class="logo-text"><strong>SOCKET</strong><span>CLIENT</span></div>
+          </div>
+          <nav class="sidebar-content">
+            <div class="workspace-label">WORKSPACE</div>
+            <div class="nav-item active"><span class="nav-icon" aria-hidden="true">◈</span><span>WebSocket</span></div>
+            <div class="workspace-label recent">RECENT</div>
+            <div class="recent-item"><span class="recent-dot"></span>Local API</div>
+          </nav>
+          <div class="sidebar-footer">
+            <div class="profile">
+              <div class="avatar" aria-hidden="true">J</div>
+              <div class="profile-info"><strong>Developer</strong><span>Personal workspace</span></div>
+            </div>
+          </div>
+        </aside>
+
+        <main class="main">
+          <header class="header">
+            <div class="breadcrumb"><span>Workspace</span><span class="slash">/</span><strong>WebSocket</strong></div>
+            <div class="header-actions"><span class="ghost-button"><span>↗</span>Socket.IO</span></div>
+          </header>
+
+          <div class="content">
+            <section class="intro" aria-labelledby="page-title">
+              <div class="intro-left">
+                <div class="connection-status" role="status" aria-live="polite">
+                  <span class="status-indicator" aria-hidden="true"></span>
+                  <span id="server-status-label">Disconnected · enter your token to connect</span>
+                </div>
+                <h1 id="page-title">WebSocket Client</h1>
+                <p>Authenticate with your access token, then send messages to your NestJS gateway.</p>
+              </div>
+              <div class="intro-decoration" aria-hidden="true"><div class="orb"></div><div class="orb-line"></div></div>
+            </section>
+
+            <section class="connection-card" aria-labelledby="endpoint-title">
+              <div class="card-header">
+                <div><span class="card-eyebrow">CONNECTION</span><h2 id="endpoint-title">Server endpoint</h2></div>
+                <div class="connection-pill"><span aria-hidden="true"></span><span id="connection-pill-label">Disconnected</span></div>
+              </div>
+              <div class="url-row">
+                <div class="protocol"><span class="protocol-dot" aria-hidden="true"></span>WS</div>
+                <div class="url" id="server-address">Loading endpoint…</div>
+                <button class="connect-button" id="reconnect-button" type="button">Reconnect <span>↗</span></button>
+              </div>
+              <form class="url-row jwt-row" id="auth-form" autocomplete="on">
+                <label class="protocol" for="jwt-token">JWT</label>
+                <input
+                  class="jwt-input"
+                  id="jwt-token"
+                  type="text"
+                  placeholder="Paste your access token"
+                  autocomplete="off"
+                  spellcheck="false"
+                  aria-label="JWT access token"
+                />
+                <button class="connect-button" id="btn-connect" type="submit">Connect <span>→</span></button>
+              </form>
+              <div class="connection-meta">
+                <div class="meta-item"><span>Protocol</span><strong>Socket.IO</strong></div>
+                <div class="meta-item"><span>Transport</span><strong>WebSocket</strong></div>
+                <div class="meta-item"><span>Event</span><strong>message-from-client</strong></div>
+              </div>
+            </section>
+
+            <div class="grid">
+              <section class="panel messages-panel" aria-labelledby="messages-title">
+                <div class="panel-header">
+                  <div><span class="panel-eyebrow">ACTIVITY</span><h3 id="messages-title">Message test</h3></div>
+                  <div class="message-count" id="message-count">0 messages</div>
+                </div>
+                <div class="chat-content">
+                  <div class="empty-state" id="chat-empty-state">
+                    <div class="empty-visual" aria-hidden="true">
+                      <div class="empty-ring ring-one"></div><div class="empty-ring ring-two"></div>
+                      <div class="socket-symbol"><span></span><span></span><span></span></div>
+                    </div>
+                    <h4>No messages yet</h4>
+                    <p id="server-response" role="status" aria-live="polite">Send a message to start the conversation.</p>
+                  </div>
+                  <ol class="chat-messages" id="chat-messages" aria-live="polite" aria-label="Conversation" hidden></ol>
+                </div>
+                <form id="message-form" class="message-composer">
+                  <div class="composer-top"><label class="composer-label" for="message-input">MESSAGE</label><div class="format-selector"><span class="selected">TEXT</span></div></div>
+                  <div class="textarea"><input id="message-input" type="text" placeholder="Write a message…" autocomplete="off" maxlength="500" /></div>
+                  <div class="composer-bottom">
+                    <div class="shortcut"><kbd>Enter</kbd><span>to send</span></div>
+                    <button class="send-button" type="submit">Send message <span>→</span></button>
+                  </div>
+                </form>
+              </section>
+
+              <aside class="right-column">
+                <section class="panel stats-panel" aria-labelledby="connection-title">
+                  <div class="panel-header small"><div><span class="panel-eyebrow">OVERVIEW</span><h3 id="connection-title">Connection</h3></div><div class="live-dot" aria-hidden="true"></div></div>
+                  <div class="stats">
+                    <div class="stat"><span>Status</span><strong id="overview-status">Disconnected</strong></div>
+                    <div class="stat"><span>Messages sent</span><strong id="overview-message-count">0</strong></div>
+                  </div>
+                </section>
+                <section class="panel details-panel" aria-labelledby="clients-title">
+                  <div class="panel-header small"><div><span class="panel-eyebrow">LIVE CONNECTIONS</span><h3 id="clients-title">Connected clients</h3></div></div>
+                  <ul id="clients-ul" aria-live="polite"></ul>
+                </section>
+                <section class="server-card">
+                  <div class="server-glow" aria-hidden="true"></div>
+                  <span class="server-label">SERVER</span>
+                  <div class="server-status"><span aria-hidden="true"></span><span id="server-card-status">Waiting for connection</span></div>
+                  <div class="server-address" id="server-card-address">Loading endpoint…</div>
+                </section>
+              </aside>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
